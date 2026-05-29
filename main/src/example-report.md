@@ -1,3 +1,3 @@
 ---
-title: report
+title: Design Rationale
 ---

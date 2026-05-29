@@ -43,6 +43,17 @@ const playerShots = shots.filter((d) => {
 ```
 
 ```js
+const fgPct =
+  playerShots.length > 0
+    ? (
+        (playerShots.filter((d) => d["Shot Made Flag"] === 1).length /
+          playerShots.length) *
+        100
+      ).toFixed(1)
+    : "0.0";
+```
+
+```js
 function drawCourt(container) {
   const width = 500;
   const height = 470;
@@ -194,7 +205,7 @@ function plotShots(svg, shots) {
     .attr("cx", (d) => xScale(d["X Location"]))
     .attr("cy", (d) => yScale(d["Y Location"]) + 50)
     .attr("r", 4)
-    .attr("fill", (d) => (d["Shot Made Flag"] === 1 ? "#378ADD" : "#E24B4A"))
+    .attr("fill", (d) => (d["Shot Made Flag"] === 1 ? "#2196F3" : "#FF6B35"))
     .attr("opacity", 0.6)
     .on("mouseover", function (event, d) {
       tooltip.style("opacity", 1).html(`
@@ -216,6 +227,17 @@ function plotShots(svg, shots) {
 ```
 
 ```js
+display(
+  html`<p style="font-size:14px; margin:4px 0;">
+    FG%: <strong>${fgPct}%</strong> (${playerShots.filter(
+      (d) => d["Shot Made Flag"] === 1,
+    ).length}/${playerShots.length}
+    shots)
+  </p>`,
+);
+```
+
+```js
 const wrapper = display(html`
   <div style="display:flex; align-items:flex-start; gap:16px;">
     <div id="court"></div>
@@ -224,13 +246,13 @@ const wrapper = display(html`
     >
       <span
         ><svg width="12" height="12">
-          <circle cx="6" cy="6" r="5" fill="#378ADD" opacity="0.8" />
+          <circle cx="6" cy="6" r="5" fill="#2196F3" opacity="0.8" />
         </svg>
         Made</span
       >
       <span
         ><svg width="12" height="12">
-          <circle cx="6" cy="6" r="5" fill="#E24B4A" opacity="0.8" />
+          <circle cx="6" cy="6" r="5" fill="#FF6B35" opacity="0.8" />
         </svg>
         Missed</span
       >
